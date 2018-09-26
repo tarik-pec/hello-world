@@ -12,7 +12,7 @@
  '(custom-enabled-themes '(misterioso))
  '(inhibit-startup-screen t)
  '(menu-bar-mode nil)
- '(package-selected-packages '(auctex))
+ '(package-selected-packages '(AuCTeX general use-package auctex))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -26,42 +26,36 @@
 
 ;;Custom
 
-;;Ido
+;;Use Package
+(require 'package)
+(setq package-enable-at-startup nil) ; load no packages at startup
+(setq package-archives '(("org"       . "http://orgmode.org/elpa/")
+                         ("gnu"       . "http://elpa.gnu.org/packages/")
+                         ("melpa"     . "https://melpa.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+;;(package-initialize)
+(unless (package-installed-p 'use-package) ; unless it is already installed
+  (package-refresh-contents) ; updage packages archive
+  (package-install 'use-package)) ; and install the most recent version of use-package
+(require 'use-package)
 
+
+;;General
+(use-package general :ensure t)
+
+;;abo-abo
+(use-package counsel :ensure t)
+(use-package swiper :ensure t)
+(use-package ivy :ensure t)
+
+;;Ido
 (require 'ido)
 (ido-mode t)
 
 ;;Latex
-
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq TeX-save-query nil)
-(setq TeX-PDF-mode t)
-
-(require 'tex-site)
-(autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
-(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
-(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
-(add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-;; (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq LaTeX-eqnarray-label "eq"
-LaTeX-equation-label "eq"
-LaTeX-figure-label "fig"
-LaTeX-table-label "tab"
-LaTeX-myChapter-label "chap"
-TeX-auto-save t
-TeX-newline-function 'reindent-then-newline-and-indent
-TeX-parse-self t
-TeX-style-path
-'("style/" "auto/"
-"/usr/share/emacs21/site-lisp/auctex/style/"
-"/var/lib/auctex/emacs21/"
-"/usr/local/share/emacs/site-lisp/auctex/style/")
-LaTeX-section-hook
-'(LaTeX-section-heading
-LaTeX-section-title
-LaTeX-section-toc
-LaTeX-section-section
-LaTeX-section-label))
+(use-package auctex :ensure t)
+;; (setq TeX-auto-save t)
+;; (setq TeX-parse-self t)
+;; (setq TeX-save-query nil)
+;; (setq TeX-PDF-mode t)
+;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
