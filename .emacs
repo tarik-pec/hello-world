@@ -13,7 +13,14 @@
  '(display-line-numbers nil)
  '(inhibit-startup-screen t)
  '(menu-bar-mode nil)
- '(package-selected-packages '(diminish which-key auctex tex AuCTeX general use-package))
+ '(package-archives
+   '(("org" . "http://orgmode.org/elpa/")
+     ("gnu" . "http://elpa.gnu.org/packages/")
+     ("melpa" . "https://melpa.org/packages/")
+     ("marmalade" . "http://marmalade-repo.org/packages/")))
+ '(package-enable-at-startup nil)
+ '(package-selected-packages
+   '(flycheck avy diminish which-key auctex tex AuCTeX general use-package))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -23,23 +30,20 @@
  ;; If there is more than one, they won't work right.
  )
 
-;;Packages
-(require 'package)
-(setq package-enable-at-startup nil) ; load no packages at startup
-(setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-                         ("gnu"       . "http://elpa.gnu.org/packages/")
-                         ("melpa"     . "https://melpa.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
-;;(package-initialize) what does this do??
-
 ;;Use-Package
-(unless (package-installed-p 'use-package) ; unless it is already installed
-  (package-refresh-contents) ; updage packages archive
-  (package-install 'use-package)) ; and install the most recent version of use-package
+(require 'package)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package)) 
 (require 'use-package)
 
 ;;General
-(use-package general :ensure t)
+(use-package general
+flycheck  :ensure t
+  :config
+  (general-define-key "C-s" 'swiper)
+  (general-define-key "C-;" 'avy-goto-char-2)
+  (general-define-key "C-'" 'avy-kill-whole-line))
 
 ;;Which-key
 (use-package which-key :ensure t)
@@ -53,8 +57,9 @@
   (setq ivy-use-virtual-buffers t
         ivy-count-format "%d/%d "))
 
-;;Diminish
-(use-package diminish :ensure t)
+;;avy
+(use-package avy
+  :ensure t)
 
 ;;AuCTeX
 (use-package tex
@@ -67,8 +72,16 @@
         TeX-PDF-mode t)
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
+;;flycheck
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode))
+  
 
-;;avy --fast cursor movement
+;;Diminish
+(use-package diminish :ensure t)
+
 ;;multiple cursors --cool cursor stuff
 ;;flycheck --syntax checking
 ;;auto-complete --auto completion
