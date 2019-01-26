@@ -44,10 +44,7 @@
   (general-define-key "C-;" 'avy-goto-char-2)
   (general-define-key "C-'" 'avy-kill-whole-line))
 
-;;Which-key
-(use-package which-key :ensure t)
-
-;;Ivy
+;;Ivy -- Everything
 (use-package ivy
   :ensure t
   :diminish  (ivy-mode . "")
@@ -56,11 +53,11 @@
   (setq ivy-use-virtual-buffers t
         ivy-count-format "%d/%d "))
 
-;;avy
+;;avy -- Fast Cursor Movement
 (use-package avy
   :ensure t)
 
-;;AuCTeX
+;;AuCTeX -- LaTeX Made Good
 (use-package tex
   :ensure auctex
   :defer t
@@ -71,14 +68,16 @@
         TeX-PDF-mode t)
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 
-;;flycheck
+;;flycheck -- Syntax Checking
 (use-package flycheck
   :ensure t
   :init
   (global-flycheck-mode))
-  
 
-;;Diminish
+;;Which-key -- Shortcuts in Mini-Buffer
+(use-package which-key :ensure t)
+
+;;Diminish -- Hides Unneccessary Information In Mini-Buffer
 (use-package diminish :ensure t)
 
 ;;multiple cursors --cool cursor stuff
@@ -87,6 +86,6 @@
 ;;mu4e --email
 ;;Magit --git
 ;;projectile --project management
-
+;;setup outline mode (built in) for latex
 ; programming stuff: C/C++, Python(elpy)
 ; other: yasnippet, workgroups2, undo-tree, browse-kill-ring
