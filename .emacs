@@ -39,7 +39,6 @@
 
 ;;General
 (use-package general
-flycheck  :ensure t
   :config
   (general-define-key "C-s" 'swiper)
   (general-define-key "C-;" 'avy-goto-char-2)
